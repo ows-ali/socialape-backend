@@ -41,7 +41,7 @@ app.post('/user/image', FBAuth, uploadImage)
 
 
 
-app.listen(process.env.port || 5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Example app listening on port `)
 })
 
