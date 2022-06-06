@@ -4,17 +4,26 @@ const app = require('express')()
 // var serviceAccount = require("../keys/serviceAccountKey.json");
 const cors = require('cors')
 const FBAuth = require('./util/fbAuth')
+const bodyParser = require('body-parser')
+
 port = 5000
 
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+)
 
+
+var corsOptions = {
+  origin: "*"
+};
+app.use(cors(corsOptions))
 
 const {getAllScreams, postOneScream, getScream, likeScream , deleteScream, commentOnScream} = require('./handlers/screams')
 const {signup, login, uploadImage , addUserDetails,  getAuthenticatedUser} = require('./handlers/users')
 
-var corsOptions = {
-    origin: "*"
-  };
-app.use(cors(corsOptions))
 //Screams routes
 app.get('/screams', getAllScreams)
 app.post('/scream', FBAuth, postOneScream)
@@ -38,7 +47,6 @@ app.post('/login',login)
 
 app.post('/user', FBAuth, addUserDetails);
 app.post('/user/image', FBAuth, uploadImage)
-
 
 
 app.listen(process.env.PORT || 5000, () => {
